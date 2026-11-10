@@ -1,0 +1,10 @@
+{
+  "name": "shortener-example",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tiny in-memory URL shortener, built end to end with spec-plan-ship.",
+  "scripts": {
+    "test": "node --test"
+  }
+}
