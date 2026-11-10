@@ -1,0 +1,15 @@
+name: rule-ids
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  rule-ids:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check rule IDs
+        run: bash scripts/check-rule-ids.sh
