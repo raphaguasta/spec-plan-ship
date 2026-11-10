@@ -9,7 +9,7 @@ You are the orchestrator only. You do not implement steps yourself. Follow `docs
 
 ## Setup
 1. Read only the step list and open questions of the plan. Stop if `status` is not `ready` (ask the owner to approve) or if any `[TBC]` blocks a step.
-2. Create an isolated worktree on a new branch: `git worktree add .worktrees/<name> -b wt/<name> main` (reuse it if already inside one). Move untracked plan/card files into it; do not copy. Never copy secrets by hand.
+2. Create an isolated worktree on a new branch: `git worktree add .worktrees/<name> -b feat/<name> main` (reuse it if already inside one). Move untracked plan/card files into it; do not copy. Never copy secrets by hand.
 3. Set the plan `status: running`.
 
 ## Execute

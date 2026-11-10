@@ -16,7 +16,7 @@ backlog card ─▶ spec ─▶ plan ─▶ worktree ─▶ executor/step ─▶
    - `reads:` exact file + section the executor must read
    - checkbox, acceptance, verification command
 4. **Worktree**: execution never happens in the main checkout.
-   - `git worktree add .worktrees/<name> -b wt/<name> main`
+   - `git worktree add .worktrees/<name> -b feat/<name> main`
    - Untracked plan/card files: *move* into the worktree (copying breaks the merge).
    - Uncommitted tracked changes do not travel; the worktree starts from the last commit.
    - Own dev-server port per worktree. Secrets never copied by hand.

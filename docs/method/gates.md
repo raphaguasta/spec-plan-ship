@@ -42,7 +42,7 @@ Asked once per plan, after all gates, never per step.
 
 Format:
 ```
-Plan: <name>   Branch: wt/<name>   Gates: all ok
+Plan: <name>   Branch: feat/<name>   Gates: all ok
 VALIDATE (what you should look at):
  - <1–5 observable checks, with URL/command>
 CHANGES IN PRODUCTION if you say yes:
