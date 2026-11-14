@@ -35,7 +35,9 @@ Skip the trail for chat, research and edits of 1–2 files.
 
 - Cheap/fast model (haiku-class), effort medium: mechanical work verifiable by a command (search, collection, repetitive edits, docs, tests that exist).
 - Mid model (sonnet-class), effort low: delicate new logic, migrations, production data, or a step the cheap model already failed.
+- `model: sonnet-class` in a plan needs a written reason; otherwise haiku-class if it passes the test.
 - Top model (opus-class) in a subagent: rare exception, state the reason.
+- Operational session (≥5 consecutive CLI/log/curl commands): delegate the rest to a mid-tier subagent or switch model.
 - The main session keeps decisions, strategy, delicate code and final text.
 - Always set `model` and `effort` explicitly when spawning a subagent. Details: [docs/method/model-routing.md](docs/method/model-routing.md).
 

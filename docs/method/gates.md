@@ -32,7 +32,7 @@ VERIFICATION:
  ...
 LEFT BEHIND: <1–3 lines the next step needs>
 ```
-The orchestrator checks the lines exist; it does not re-run them.
+The orchestrator checks the lines exist; it does not re-run them. Done-definition ends with one `scripts/close-step.sh` call; in a parallel group, one closer runs the done-definition once, then closes each step.
 
 ## Local before production
 Everything is proven locally first (tests, build, local DB/migration dry-run). Production-touching actions (migration push, deploy, data backfill) wait for the human's answer, preceded by a backup and a dry run where applicable.

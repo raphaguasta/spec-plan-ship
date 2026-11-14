@@ -40,12 +40,25 @@ Executors start with zero context. The prompt must carry: worktree path, branch,
 - No `depends:`/`files:` declared → sequential.
 - The orchestrator consolidates; parallel executors never edit the same file.
 
+## Step commit
+Always ONE call: `scripts/close-step.sh -C <wt> -p <plan> -s <ID> -m "<msg>" -- <files>` (checkbox + add + commit + push), by whoever commits: sequential executor, group closer or orchestrator. Ad-hoc git only to inspect and to finish the plan.
+
+## Parallel group
+Orchestrator does not commit as executors return. It waits for the whole group; one closer runs the done-definition once, fixes only integration breaks, runs `close-step.sh` once per step.
+
 ## Cheap verification by the orchestrator
-`git log --oneline -3`, `git show --stat <hash>`, checkbox `[x]`, gate lines present. It does not re-run tests.
+ONE git call (`git -C <wt> log --oneline -3 --stat`) plus checkbox `[x]` and gate lines present. It does not re-run tests.
+
+Executors never background anything needed to finish; long build/e2e runs in foreground with a timeout.
 
 ## Failure handling
 - `failed`: one retry with a fresh executor, the failure report, and the next model tier up.
 - Fails again, or `blocked` on a human decision: stop the plan, keep work committed and pushed, ask, resume.
+
+## Rare cases
+- Plan touches two repos: finish one repo's steps, switch worktree to the other repo; done by the orchestrator, not executors.
+- Per-item checkboxes without `**ID.`: mark by hand before `close-step.sh` (its warning is harmless).
+- Fast-forward merge refused because main has an append-only log with local additions: save the added lines, restore the file, merge, re-append. Any other diff: stop and ask.
 
 ## When NOT to use it
 - Chat, Q&A, exploration, research.

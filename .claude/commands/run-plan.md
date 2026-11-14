@@ -15,17 +15,20 @@ You are the orchestrator only. You do not implement steps yourself. Follow `docs
 ## Execute
 4. One subagent executor per step, launched through the Agent tool with explicit settings:
    - `model: haiku-class` step: model "haiku", effort medium.
-   - `model: sonnet-class` step: model "sonnet", effort low.
+   - `model: sonnet-class` step: model "sonnet", effort low. `model: sonnet` without a written reason in parentheses: use haiku if the step passes the haiku test.
 5. Order: sequential by default. Run steps in parallel (same message) only when their `depends:` are all finished AND their `files:` do not overlap. Missing `depends:` or `files:` means sequential.
 6. Each executor gets a self-contained briefing (it starts with zero context):
    - Goal of the step and the exact `do:` text.
    - Worktree path, branch, plan path, step id.
    - `files:` it may touch, and `reads:` sections it must read.
-   - The `check:` command and the definition of done: check passes, gates run, files of the step committed, branch pushed.
+   - The `check:` command and the definition of done: check passes, gates run, then ONE `scripts/close-step.sh` call (checkbox + add + commit + push).
+   - Never background anything needed to finish; long build/e2e runs in foreground with a timeout.
    - What earlier steps left behind.
    - Forbidden: touching any file outside `files:`, reading or writing secrets or `.env*`, widening scope, asking the human.
    - Required report: `STATUS: done|failed|blocked`, `COMMIT`, one line per gate, `LEFT BEHIND`.
-7. Verify cheaply: `git log --oneline -3`, `git show --stat <hash>`, the report lines. Do not re-run tests.
+7. Verify cheaply: ONE git call, `git -C <wt> log --oneline -3 --stat`, plus checkbox and report lines. Do not re-run tests.
+   - Parallel group: do not commit step by step as executors return. Wait for the whole group; one closer runs the done-definition once, fixes only integration breaks, runs `close-step.sh` once per step.
+   - Every step commit is one `close-step.sh` call, by whoever commits (executor, group closer, orchestrator). Ad-hoc git only to inspect and to finish the plan.
 8. On `failed`: one retry with a fresh executor, the failure report and the next tier up. A second failure or a `blocked` step stops the plan; keep commits and ask the owner.
 
 ## Gates and the question

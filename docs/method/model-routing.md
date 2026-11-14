@@ -21,6 +21,8 @@ Fail any item → sonnet-class.
 ## Per-step selection
 - Plan step has `model:` → obey it.
 - No `model:` → apply the test above.
+- `model: sonnet-class` needs a written reason on the same line. No reason → haiku-class if the step passes the test.
+- Diagnosis and operations work (cloud CLIs, logs, curl, deploys) runs on the mid tier, also outside a plan.
 - Risky domains are always mid tier or higher, regardless of how simple the step looks.
 
 ## Explicit settings on every subagent call
@@ -36,6 +38,10 @@ haiku-class ──fail──▶ sonnet-class ──fail──▶ stop, report, a
 - Second failure, or a human-only decision: stop the plan, keep commits, ask.
 - Opus-class is not a step in the ladder; it is a deliberate exception with a written reason.
 
+## Operational drift
+Main session on the top model that turned operational (≥5 consecutive CLI/log/curl commands): delegate the rest to a mid-tier subagent with a goal and a stop criterion, or switch model.
+Rule of thumb: a subagent turn carries a fraction of a long main-session turn's context; measure your own setup before tuning thresholds.
+
 ## Phases of a task (example split)
 - Writing and reviewing the spec/plan: strongest model you can justify, in the main session.
 - Orchestrating and executing: mid tier for the main session, cheap/mid for executors.
@@ -43,7 +49,7 @@ haiku-class ──fail──▶ sonnet-class ──fail──▶ stop, report, a
 
 ## Writing plans for routing
 - Put `model: haiku-class` on every step verifiable by test/build/grep/diff.
-- Put `model: sonnet-class` on new delicate logic, migrations, production data, or a step that already failed.
+- Put `model: sonnet-class` on new delicate logic, migrations, production data, or a step that already failed, and write the reason on the line.
 - No automatic reviewer agent by default; quality comes from the definition of done (`gates.md`). Add a reviewer only on request, mid tier.
 
 ## Free/local tier (optional)

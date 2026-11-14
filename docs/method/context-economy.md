@@ -28,7 +28,8 @@ They start cold. Give: goal, absolute paths, exact sections to read, output form
 - Executor prompts list which sections to read; plans carry `reads:` per step.
 
 ## Sessions
-- One big task per session. When done, start a fresh one instead of chaining.
+- One big task per session. When done, the AI hands over a ready-to-paste prompt for a fresh session instead of chaining.
+- Alarm at ~150k context: before it, decide compact (same task) or fresh session (new task).
 - Topic change: clear. Long session: compact, ideally before stepping away while the cache is warm.
 - Context cache expires after a while; resuming after a long pause with a large context re-writes it at a higher price. Compact or clear first if substantial work remains.
 - Change model/effort only at session start.
@@ -37,6 +38,7 @@ They start cold. Give: goal, absolute paths, exact sections to read, output form
 ## Orchestrator discipline
 - Read only the step list and open questions of a plan.
 - Verify cheaply (log, `show --stat`, checkbox), do not re-run.
+- Git ceremony was a measured cost driver: commit each step with a single script call, not many git commands.
 - No screenshots in the main session; a subagent returns a short summary.
 
 ## Keep notes cheap to load
