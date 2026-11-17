@@ -16,7 +16,8 @@ Keep it short. Claude reads it every session; every line costs context.
 3. **Relevant decision → `decisions/`.** Use the template; include discarded alternatives and a `review_on` date.
 4. **Specs are current state only.** Telegraphic, requirement IDs `R-AREA-NN`, no history. Run `bash scripts/check-rule-ids.sh` after editing them.
 5. **No secrets in the repo.** Tokens, passwords, `.env`, personal data, real customer names: never. Run `bash scripts/check-sensitive.sh` before pushing.
-6. **Be a critical partner.** Point out contradictions with specs, decisions or the plan before executing.
+6. **Pending work is born in `TASKS.md`, never only in a log.** Anything left to do (deploy, validation, open worktree, decision) gets an item under "In progress / waiting" with an owner. At wrap-up run `bash scripts/loose-ends.sh --fix` and leave no `!`.
+7. **Be a critical partner.** Point out contradictions with specs, decisions or the plan before executing.
 
 ## The path of every change
 

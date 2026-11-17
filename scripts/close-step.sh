@@ -57,9 +57,9 @@ fi
 BAK="$(mktemp)"
 cp "$PLAN" "$BAK"
 
-# Mark checkbox on "- [ ] **<ID>." or "- [ ] **<ID> " lines.
+# Mark checkbox on "- [ ] **<ID>." / "- [ ] <ID>." lines (the ID is followed by "." or a space).
 ESC="$(printf '%s' "$ID" | sed 's/[][\.*^$/+?(){}|]/\\&/g')"
-sed -E "s/^(- )\[ \]( \*\*${ESC}[. ])/\1[x]\2/" "$BAK" > "$PLAN"
+sed -E "s/^(- )\[ \]( (\*\*)?${ESC}[. ])/\1[x]\2/" "$BAK" > "$PLAN"
 MARKED=1
 if cmp -s "$BAK" "$PLAN"; then
   echo "warning: checkbox for $ID not found or already marked" >&2
